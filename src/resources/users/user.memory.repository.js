@@ -1,3 +1,5 @@
+const { setUserIdToNull } = require('../tasks/task.memory.repository');
+
 let userDB = [];
 
 const getAll = async () => {
@@ -29,6 +31,7 @@ const updateUser = async (id, newUserInfo) => {
 };
 
 const deleteUser = async (id) => {
+  await setUserIdToNull(id)
    userDB = await userDB.filter((user) => user.id !== id)
 };
 

@@ -1,3 +1,5 @@
+const { deleteTasksByBoardId } = require('../tasks/task.memory.repository')
+
 let boardDB = [];
 
 const getAll = async () => {
@@ -29,7 +31,8 @@ const updateBoard = async (id, newBoardInfo) => {
 };
 
 const deleteBoard = async (id) => {
-   boardDB = await boardDB.filter((board) => board.id !== id)
+  await deleteTasksByBoardId(id);
+  boardDB = await boardDB.filter((board) => board.id !== id)
 };
 
 module.exports = { getAll, getOne, createBoard, updateBoard, deleteBoard };
