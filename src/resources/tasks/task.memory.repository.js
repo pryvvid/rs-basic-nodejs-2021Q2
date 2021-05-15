@@ -7,24 +7,24 @@ const getAll = async () => {
 
 const getOne = async (id) => {
   let task = null;
-   try {
-     task = await taskDB.find((t) => t.id === id)     
-   } catch (e) {
-     process.stderr.write(e)
-   }
-   return task
+  try {
+    task = await taskDB.find((t) => t.id === id);
+  } catch (e) {
+    process.stderr.write(e);
+  }
+  return task;
 };
 
 const createTask = async (task) => {
-  await taskDB.push(task)
+  await taskDB.push(task);
 };
 
 const updateTask = async (id, newTaskInfo) => {
-  const taskIndex = await taskDB.findIndex(task => task.id === id);
+  const taskIndex = await taskDB.findIndex((task) => task.id === id);
   const updatedTask = {
     ...taskDB[taskIndex],
-    ...newTaskInfo
-  }
+    ...newTaskInfo,
+  };
   taskDB[taskIndex] = updatedTask;
 };
 
@@ -37,15 +37,20 @@ const deleteTasksByBoardId = async (boardId) => {
 };
 
 const setUserIdToNull = (userId) => {
-  taskDB = taskDB.map(task => {
-    const taskObj = {
-      ...task
+  taskDB = taskDB.map((task) => {
+    if (task.userId === userId) {
+      return { ...task, userId: null };
     }
-    if (taskObj.userId === userId) {
-      taskObj.userId = null;
-    }
-    return taskObj;
-  })
-}
+    return task;
+  });
+};
 
-module.exports = { getAll, getOne, createTask, updateTask, deleteTask, deleteTasksByBoardId, setUserIdToNull };
+module.exports = {
+  getAll,
+  getOne,
+  createTask,
+  updateTask,
+  deleteTask,
+  deleteTasksByBoardId,
+  setUserIdToNull,
+};
