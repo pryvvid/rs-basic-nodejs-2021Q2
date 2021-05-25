@@ -1,3 +1,5 @@
+const Task = require('./task.model');
+
 let taskDB = [];
 
 const getAll = async () => {
@@ -15,8 +17,24 @@ const getOne = async (id) => {
   return task;
 };
 
-const createTask = async (task) => {
-  await taskDB.push(task);
+const createTask = async ({
+  title,
+  order,
+  description,
+  userId,
+  boardId,
+  columnId,
+}) => {
+  const newTask = new Task({
+    title,
+    order,
+    description,
+    userId,
+    boardId,
+    columnId,
+  });
+  await taskDB.push(newTask);
+  return taskDB[taskDB.length - 1];
 };
 
 const updateTask = async (id, newTaskInfo) => {
@@ -26,6 +44,7 @@ const updateTask = async (id, newTaskInfo) => {
     ...newTaskInfo,
   };
   taskDB[taskIndex] = updatedTask;
+  return updateTask;
 };
 
 const deleteTask = async (id) => {
