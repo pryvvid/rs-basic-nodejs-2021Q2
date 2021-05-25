@@ -13,8 +13,7 @@ router
 
   .post(async (req, res) => {
     const { name, login, password } = req.body;
-    const newUser = new User({ name, login, password });
-    await usersService.createUser(newUser);
+    const newUser = await usersService.createUser({ name, login, password });
     res.status(201).json(User.toResponse(newUser));
   });
 
@@ -38,8 +37,8 @@ router
       login,
       password,
     };
-    await usersService.updateUser(id, updatedUser);
-    res.status(200).json(updatedUser);
+    const userAfterUpdate = await usersService.updateUser(id, updatedUser);
+    res.status(200).json(userAfterUpdate);
   })
 
   .delete(async (req, res) => {

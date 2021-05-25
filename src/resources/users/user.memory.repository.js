@@ -1,4 +1,4 @@
-const { setUserIdToNull } = require('../tasks/task.memory.repository');
+const User = require('./user.model');
 
 let userDB = [];
 
@@ -17,8 +17,9 @@ const getOne = async (id) => {
   return user;
 };
 
-const createUser = async (user) => {
-  await userDB.push(user);
+const createUser = async ({ name, login, password }) => {
+  await userDB.push(new User({ name, login, password }));
+  return userDB[userDB.length - 1];
 };
 
 const updateUser = async (id, newUserInfo) => {
@@ -28,10 +29,10 @@ const updateUser = async (id, newUserInfo) => {
     ...newUserInfo,
   };
   userDB[userIndex] = updatedUser;
+  return updatedUser;
 };
 
 const deleteUser = async (id) => {
-  await setUserIdToNull(id);
   userDB = await userDB.filter((user) => user.id !== id);
 };
 
