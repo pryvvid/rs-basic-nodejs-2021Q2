@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const Board = require('./board.model');
 const boardsService = require('./board.service');
+const Board = require('./board.model');
 
 router
   .route('/')
@@ -12,8 +12,7 @@ router
 
   .post(async (req, res) => {
     const { title, columns } = req.body;
-    const newBoard = new Board({ title, columns });
-    await boardsService.createBoard(newBoard);
+    const newBoard = await boardsService.createBoard({ title, columns });
     res.status(201).json(Board.toResponse(newBoard));
   });
 
@@ -36,8 +35,8 @@ router
       title,
       columns,
     };
-    await boardsService.updateBoard(id, updatedBoard);
-    res.status(200).json(updatedBoard);
+    const boardAfterUpdate = await boardsService.updateBoard(id, updatedBoard);
+    res.status(200).json(boardAfterUpdate);
   })
 
   .delete(async (req, res) => {

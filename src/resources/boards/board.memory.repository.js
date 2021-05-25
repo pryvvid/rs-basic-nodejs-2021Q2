@@ -1,4 +1,4 @@
-const { deleteTasksByBoardId } = require('../tasks/task.memory.repository');
+const Board = require('./board.model');
 
 let boardDB = [];
 
@@ -17,8 +17,9 @@ const getOne = async (id) => {
   return board;
 };
 
-const createBoard = async (board) => {
-  await boardDB.push(board);
+const createBoard = async ({ title, columns }) => {
+  await boardDB.push(new Board({ title, columns }));
+  return boardDB[boardDB.length - 1];
 };
 
 const updateBoard = async (id, newBoardInfo) => {
@@ -28,10 +29,10 @@ const updateBoard = async (id, newBoardInfo) => {
     ...newBoardInfo,
   };
   boardDB[boardIndex] = updatedBoard;
+  return updatedBoard;
 };
 
 const deleteBoard = async (id) => {
-  await deleteTasksByBoardId(id);
   boardDB = await boardDB.filter((board) => board.id !== id);
 };
 
