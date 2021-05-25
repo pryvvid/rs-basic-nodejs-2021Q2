@@ -8,7 +8,13 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/pryvvid/rs-basic-nodejs-2021Q2.git
+```
+
+## Switching to dev branch
+
+```
+git checkout task-2/express-rest-service
 ```
 
 ## Installing NPM modules
