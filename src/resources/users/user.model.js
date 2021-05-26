@@ -7,6 +7,9 @@ class User {
   /**
    * 
    * @param {Object} userObject Object with properties 'id, name, login, password'
+   * @param {string} userObject.id User's id
+   * @param {string} userObject.name User's name
+   * @param {string} userObject.password User's password
    */
   constructor({
     id = uuid(),
