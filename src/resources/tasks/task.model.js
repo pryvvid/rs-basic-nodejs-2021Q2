@@ -5,7 +5,6 @@ const uuid = require('uuid').v4;
  */
 class Task {
   /**
-   * 
    * @param {Object} taskObject Object with properties 'id, title, order, description, userId, boardId, columnId'
    * @param {string} taskObject.id Task's id
    * @param {string} taskObject.title Task's title
@@ -55,7 +54,6 @@ class Task {
   }
 
   /**
-   * 
    * @property {Function} toResponse Returns task object
    * @returns {Object}
    */

@@ -5,7 +5,6 @@ const uuid = require('uuid').v4;
  */
 class User {
   /**
-   * 
    * @param {Object} userObject Object with properties 'id, name, login, password'
    * @param {string} userObject.id User's id
    * @param {string} userObject.name User's name
@@ -36,7 +35,6 @@ class User {
   }
 
   /**
-   * 
    * @property {Function} toResponse Returns user object without password property
    * @returns {Object}
    */
