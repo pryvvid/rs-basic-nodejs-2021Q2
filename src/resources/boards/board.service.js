@@ -1,3 +1,4 @@
+/** @module BoardService */
 const boardsRepo = require('./board.memory.repository');
 const { deleteTasksByBoardId } = require('../tasks/task.memory.repository');
 

@@ -1,3 +1,4 @@
+/** @module UserRepository */
 const User = require('./user.model');
 
 let userDB = [];
@@ -14,7 +15,7 @@ const getAll = async () => {
 /**
  * Finds user by id and returns it
  * @param {string} id user's id
- * @returns {object|null} user object or null
+ * @returns {Object|null} user object or null
  */
 const getOne = async (id) => {
   let user = null;
@@ -30,8 +31,11 @@ const getOne = async (id) => {
  * Creates new user from object
  * Adds it to database
  * Returns created user
- * @param {{name: string, login: string, password: string}} user object with properties 'name, login, password'
- * @returns {object} created user
+ * @param {Object} user Object with properties 'id, name, login, password'
+ * @param {string} user.id User's id
+ * @param {string} user.name User's name
+ * @param {string} user.password User's password
+ * @returns {Object} created user
  */
 const createUser = async ({ name, login, password }) => {
   await userDB.push(new User({ name, login, password }));
@@ -42,8 +46,8 @@ const createUser = async ({ name, login, password }) => {
  * Finds user by id and updates it with new info
  * Returns updated user
  * @param {stirng} id 
- * @param {object} newUserInfo 
- * @returns {object} updated user
+ * @param {Object} newUserInfo 
+ * @returns {Object} updated user
  */
 const updateUser = async (id, newUserInfo) => {
   const userIndex = await userDB.findIndex((user) => user.id === id);

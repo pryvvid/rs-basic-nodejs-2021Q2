@@ -1,10 +1,11 @@
+/** @module TaskRepository */
 const Task = require('./task.model');
 
 let taskDB = [];
 
 /**
  * Returns all tasks from database
- * @returns {Array<object>} all tasks
+ * @returns {Array<Object>} all tasks
  */
 const getAll = async () => {
   const DB = await taskDB;
@@ -14,7 +15,7 @@ const getAll = async () => {
 /**
  * Finds task by id and returns it
  * @param {string} id task's id
- * @returns {object|null} task object or null
+ * @returns {Object|null} task object or null
  */
 const getOne = async (id) => {
   let task = null;
@@ -30,17 +31,15 @@ const getOne = async (id) => {
  * Creates new task from object
  * Adds it to database
  * Returns created task
- * @param {
- *  {
- *    title: string, 
- *    order: number, 
- *    description: string,
- *    userId: string,
- *    boardId: string,
- *    columnId: string
- *  }
- * } task object with properties 'title, order, description, userId, boardId, columnId'
- * @returns {object} created task
+ * @param {Object} task Object with properties 'id, title, order, description, userId, boardId, columnId'
+ * @param {string} task.id Task's id
+ * @param {string} task.title Task's title
+ * @param {number} task.order Task's order
+ * @param {string} task.description Task's description
+ * @param {string|null} task.userId Task's userId
+ * @param {string|null} task.boardId Task's boardId
+ * @param {string|null} task.columnId Task's columnId
+ * @returns {Object} created task
  */
 const createTask = async ({
   title,
@@ -66,8 +65,8 @@ const createTask = async ({
  * Finds task by id and updates it with new info
  * Returns updated task
  * @param {stirng} id 
- * @param {object} newTaskInfo 
- * @returns {object} updated task
+ * @param {Object} newTaskInfo 
+ * @returns {Object} updated task
  */
 const updateTask = async (id, newTaskInfo) => {
   const taskIndex = await taskDB.findIndex((task) => task.id === id);

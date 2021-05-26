@@ -1,3 +1,4 @@
+/** @module UserService */
 const usersRepo = require('./user.memory.repository');
 const { setUserIdToNull } = require('../tasks/task.memory.repository');
 
