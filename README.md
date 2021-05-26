@@ -14,13 +14,19 @@ git clone https://github.com/pryvvid/rs-basic-nodejs-2021Q2.git
 ## Switching to dev branch
 
 ```
-git checkout task-2/express-rest-service
+git checkout task4/typescript-basics
 ```
 
 ## Installing NPM modules
 
 ```
 npm install
+```
+
+## Running JSDoc
+
+```
+npm run doc
 ```
 
 ## Running application
