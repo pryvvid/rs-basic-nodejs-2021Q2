@@ -5,7 +5,7 @@ let taskDB = [];
 
 /**
  * Returns all tasks from database
- * @returns {Promise<Array<Object>>} Promise of array contains all tasks
+ * @returns {Promise<Array<Object>|[]>} Promise of array contains all tasks
  */
 const getAll = async () => {
   const DB = await taskDB;

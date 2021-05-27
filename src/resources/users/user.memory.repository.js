@@ -5,7 +5,7 @@ let userDB = [];
 
 /**
  * Returns all users from database
- * @returns {Promise<Array<object>>} Promise of array contains all users
+ * @returns {Promise<Array<Object>|[]>} Promise of array contains all users
  */
 const getAll = async () => {
   const DB = await userDB;

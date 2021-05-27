@@ -5,7 +5,7 @@ let boardDB = [];
 
 /**
  * Returns all boards from database
- * @returns {Promise<Array<Object>>} Promise of array contains all boards
+ * @returns {Promise<Array<Object>|[]>} Promise of array contains all boards
  */
 const getAll = async () => {
   const DB = await boardDB;
