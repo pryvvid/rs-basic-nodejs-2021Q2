@@ -2,38 +2,38 @@
 const tasksRepo = require('./task.memory.repository');
 
 /**
- * Returns a function that returns all tasks
- * @returns {Function}
+ * Returns a promise contains all tasks
+ * @returns {Promise<Array<Object>>} Promise of array contains all tasks
  */
-const getAll = () => tasksRepo.getAll();
+const getAll = async () => tasksRepo.getAll();
 
 /**
- * Returns a function that returns task by id
+ * Returns a promise contains task found by id or null
  * @param {string} id Task's id
- * @returns {Function}
+ * @returns {Promise<Object|null>} Promise of task object or null
  */
-const getOne = (id) => tasksRepo.getOne(id);
+const getOne = async (id) => tasksRepo.getOne(id);
 
 /**
- * Returns a function that creates new task and returns it
+ * Returns a promise contains created task
  * @param {Object} task Task object
- * @returns {Function}
+ * @returns {Promise<Object>} Promise of created task
  */
-const createTask = (task) => tasksRepo.createTask(task);
+const createTask = async (task) => tasksRepo.createTask(task);
 
 /**
- * Returns a function that updates task with new info
+ * Returns a promise contains updated task
  * @param {string} id Task's id
  * @param {Object} updatedInfo Task's new info
- * @returns {Function}
+ * @returns {Promise<Object>} Promise of updated task
  */
-const updateTask = (id, updatedInfo) => tasksRepo.updateTask(id, updatedInfo);
+const updateTask = async (id, updatedInfo) => tasksRepo.updateTask(id, updatedInfo);
 
 /**
- * Returns a function that deletes a task
+ * Returns a promise that deletes a task
  * @param {string} id Task's id
- * @returns {Function}
+ * @returns {Promise<void>} Promise of void
  */
-const deleteTask = (id) => tasksRepo.deleteTask(id);
+const deleteTask = async (id) => tasksRepo.deleteTask(id);
 
 module.exports = { getAll, getOne, createTask, updateTask, deleteTask };

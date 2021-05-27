@@ -1,18 +1,19 @@
 const uuid = require('uuid').v4;
 
 /**
+ * @class
  * Class to create a task object
  */
 class Task {
   /**
-   * @param {Object} task Object with properties 'id, title, order, description, userId, boardId, columnId'
-   * @param {string} task.id Task's id
-   * @param {string} task.title Task's title
-   * @param {number} task.order Task's order
-   * @param {string} task.description Task's description
-   * @param {string|null} task.userId Task's userId
-   * @param {string|null} task.boardId Task's boardId
-   * @param {string|null} task.columnId Task's columnId
+   * @param {Object} taskObject Object with properties 'id, title, order, description, userId, boardId, columnId'
+   * @param {string} taskObject.id Task's id
+   * @param {string} taskObject.title Task's title
+   * @param {number} taskObject.order Task's order
+   * @param {string} taskObject.description Task's description
+   * @param {string|null} taskObject.userId Task's userId
+   * @param {string|null} taskObject.boardId Task's boardId
+   * @param {string|null} taskObject.columnId Task's columnId
    */
   constructor({
     id = uuid(),
@@ -55,7 +56,7 @@ class Task {
 
   /**
    * @property {Function} toResponse Returns task object
-   * @returns {Object}
+   * @returns {Object} Task object
    */
   static toResponse(task) {
     return task;

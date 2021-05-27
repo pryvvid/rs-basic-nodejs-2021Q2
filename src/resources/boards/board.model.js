@@ -1,14 +1,15 @@
 const uuid = require('uuid').v4;
 
 /**
+ * @class
  * Class to create a board object
  */
 class Board {
   /**
    * @param {Object} boardObject Object with properties 'id, title, columns'
-   * @param {string} boardObject.id User's id
-   * @param {string} boardObject.title User's name
-   * @param {Array<Object>} boardObject.columns User's columns
+   * @param {string} boardObject.id Board's id
+   * @param {string} boardObject.title Board's name
+   * @param {Array<Object>} boardObject.columns Board's columns
    */
   constructor({
     id = uuid(),
@@ -31,7 +32,7 @@ class Board {
 
   /**
    * @property {Function} toResponse Returns board object
-   * @returns {Object}
+   * @returns {Object} Board object
    */
   static toResponse(board) {
     return board;

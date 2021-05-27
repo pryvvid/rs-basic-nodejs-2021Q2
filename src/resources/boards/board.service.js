@@ -3,43 +3,43 @@ const boardsRepo = require('./board.memory.repository');
 const { deleteTasksByBoardId } = require('../tasks/task.memory.repository');
 
 /**
- * Returns a function that returns all boards
- * @returns {Function}
+ * Returns a promise contains all boards
+ * @returns {Promise<Array<Object>>} Promise of array contains all boards
  */
-const getAll = () => boardsRepo.getAll();
+const getAll = async () => boardsRepo.getAll();
 
 /**
- * Returns a function that returns board by id
+ * Returns a promise contains board found by id or null
  * @param {string} id Board's id
- * @returns {Function}
+ * @returns {Promise<Object|null>} Promise of board object or null
  */
-const getOne = (id) => boardsRepo.getOne(id);
+const getOne = async (id) => boardsRepo.getOne(id);
 
 /**
- * Returns a function that creates new board and returns it
+ * Returns a promise contains created board
  * @param {Object} task Board object
- * @returns {Function}
+ * @returns {Promise<Object>} Promise of created board
  */
-const createBoard = (board) => boardsRepo.createBoard(board);
+const createBoard = async (board) => boardsRepo.createBoard(board);
 
 /**
- * Returns a function that updates board with new info
+ * Returns a promise contains updated board
  * @param {string} id Board's id
  * @param {Object} updatedInfo Board's new info
- * @returns {Function}
+ * @returns {Promise<Object>} Promise of updated board
  */
-const updateBoard = (id, updatedInfo) => boardsRepo.updateBoard(id, updatedInfo);
+const updateBoard = async (id, updatedInfo) => boardsRepo.updateBoard(id, updatedInfo);
 
 /**
  * Calls two functions
  * First deletes tasks with property of board's id
  * Second deletes board from database
  * @param {string} id User's id
- * @returns {void}
+ * @returns {Promise<void>} Promise of void
  */
-const deleteBoard = (id) => {
-  deleteTasksByBoardId(id)
-  boardsRepo.deleteBoard(id);
+const deleteBoard = async (id) => {
+  await deleteTasksByBoardId(id)
+  await boardsRepo.deleteBoard(id);
 }
 
 module.exports = { getAll, getOne, createBoard, updateBoard, deleteBoard };

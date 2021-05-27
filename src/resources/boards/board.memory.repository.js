@@ -5,7 +5,7 @@ let boardDB = [];
 
 /**
  * Returns all boards from database
- * @returns {Array<Object>} all boards
+ * @returns {Promise<Array<Object>>} Promise of array contains all boards
  */
 const getAll = async () => {
   const DB = await boardDB;
@@ -15,7 +15,7 @@ const getAll = async () => {
 /**
  * Finds board by id and returns it
  * @param {string} id board's id
- * @returns {Object|null} board object or null
+ * @returns {Promise<Object|null>} Promise of board object or null
  */
 const getOne = async (id) => {
   let board = null;
@@ -34,7 +34,7 @@ const getOne = async (id) => {
  * @param {Object} board Object with properties 'id, title, columns'
  * @param {string} board.title Board's title
  * @param {Array<Object>} board.columns Board's columns
- * @returns {Object} created board
+ * @returns {Promise<Object>} Promise of created board
  */
 const createBoard = async ({ title, columns }) => {
   await boardDB.push(new Board({ title, columns }));
@@ -44,9 +44,9 @@ const createBoard = async ({ title, columns }) => {
 /**
  * Finds board by id and updates it with new info
  * Returns updated board
- * @param {stirng} id 
- * @param {Object} newBoardInfo 
- * @returns {Object} updated board
+ * @param {stirng} id Board's id
+ * @param {Object} newBoardInfo Board's new info
+ * @returns {Promise<Object>} Promise of updated board
  */
 const updateBoard = async (id, newBoardInfo) => {
   const boardIndex = await boardDB.findIndex((board) => board.id === id);
@@ -61,7 +61,7 @@ const updateBoard = async (id, newBoardInfo) => {
 /**
  * Deletes board from database
  * @param {string} id board's id
- * @returns {void}
+ * @returns {Promise<void>} Promise of void
  */
 const deleteBoard = async (id) => {
   boardDB = await boardDB.filter((board) => board.id !== id);

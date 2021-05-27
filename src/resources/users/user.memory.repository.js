@@ -5,7 +5,7 @@ let userDB = [];
 
 /**
  * Returns all users from database
- * @returns {Array<object>} all users
+ * @returns {Promise<Array<object>>} Promise of array contains all users
  */
 const getAll = async () => {
   const DB = await userDB;
@@ -15,7 +15,7 @@ const getAll = async () => {
 /**
  * Finds user by id and returns it
  * @param {string} id user's id
- * @returns {Object|null} user object or null
+ * @returns {Promise<Object|null>} Promise of user object or null
  */
 const getOne = async (id) => {
   let user = null;
@@ -35,7 +35,7 @@ const getOne = async (id) => {
  * @param {string} user.id User's id
  * @param {string} user.name User's name
  * @param {string} user.password User's password
- * @returns {Object} created user
+ * @returns {Promise<Object>} Promise of created user
  */
 const createUser = async ({ name, login, password }) => {
   await userDB.push(new User({ name, login, password }));
@@ -45,9 +45,9 @@ const createUser = async ({ name, login, password }) => {
 /**
  * Finds user by id and updates it with new info
  * Returns updated user
- * @param {stirng} id 
- * @param {Object} newUserInfo 
- * @returns {Object} updated user
+ * @param {stirng} id User's if
+ * @param {Object} newUserInfo User's new info
+ * @returns {Promise<Object>} Promise of updated user
  */
 const updateUser = async (id, newUserInfo) => {
   const userIndex = await userDB.findIndex((user) => user.id === id);
@@ -62,7 +62,7 @@ const updateUser = async (id, newUserInfo) => {
 /**
  * Deletes user from database
  * @param {string} id user's id
- * @returns {void}
+ * @returns {Promise<void>} Promise of void
  */
 const deleteUser = async (id) => {
   userDB = await userDB.filter((user) => user.id !== id);

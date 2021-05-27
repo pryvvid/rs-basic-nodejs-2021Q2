@@ -1,6 +1,7 @@
 const uuid = require('uuid').v4;
 
 /**
+ * @class
  * Class to create a user object
  */
 class User {

@@ -3,43 +3,43 @@ const usersRepo = require('./user.memory.repository');
 const { setUserIdToNull } = require('../tasks/task.memory.repository');
 
 /**
- * Returns a function that returns all users
- * @returns {Function}
+ * Returns a promise of array contains all users
+ * @returns {Promise<Array<object>>} Promise of array contains all users
  */
-const getAll = () => usersRepo.getAll();
+const getAll = async () => usersRepo.getAll();
 
 /**
- * Returns a function that returns user by id
+ * Returns a promise that contains user found by id or null
  * @param {string} id User's id
- * @returns {Function}
+ * @returns {Promise<Object|null>} Promise of user object or null
  */
-const getOne = (id) => usersRepo.getOne(id);
+const getOne = async (id) => usersRepo.getOne(id);
 
 /**
- * Returns a function that creates new user and returns it
+ * Returns a promise contains created user
  * @param {Object} user User object
- * @returns {Function}
+ * @returns {Promise<Object>} Promise of created user
  */
-const createUser = (user) => usersRepo.createUser(user);
+const createUser = async (user) => usersRepo.createUser(user);
 
 /**
- * Returns a function that updates user with new info
+ * Returns a promise of updated user
  * @param {string} id User's id
  * @param {Object} updatedInfo User's new info
- * @returns {Function}
+ * @returns {Promise<Object>} Promise of updated user
  */
-const updateUser = (id, updatedInfo) => usersRepo.updateUser(id, updatedInfo);
+const updateUser = async (id, updatedInfo) => usersRepo.updateUser(id, updatedInfo);
 
 /**
- * Calls two functions
+ * Calls two async functions
  * First sets 'user_id' property of Task object to null
  * Second deletes user from database
  * @param {string} id User's id
- * @returns {void}
+ * @returns {Promise<void>} Promise of void
  */
-const deleteUser = (id) => {
-  setUserIdToNull(id);
-  usersRepo.deleteUser(id);
+const deleteUser = async (id) => {
+  await setUserIdToNull(id);
+  await usersRepo.deleteUser(id);
 };
 
 module.exports = { getAll, getOne, createUser, updateUser, deleteUser };
