@@ -64,7 +64,7 @@ const createTask = async ({
 /**
  * Finds task by id and updates it with new info
  * Returns updated task
- * @param {stirng} id Task's id
+ * @param {string} id Task's id
  * @param {Object} newTaskInfo Task's new info
  * @returns {Promise<Object>} Promise of updated task
  */

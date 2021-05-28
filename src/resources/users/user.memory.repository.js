@@ -45,7 +45,7 @@ const createUser = async ({ name, login, password }) => {
 /**
  * Finds user by id and updates it with new info
  * Returns updated user
- * @param {stirng} id User's if
+ * @param {string} id User's id
  * @param {Object} newUserInfo User's new info
  * @returns {Promise<Object>} Promise of updated user
  */

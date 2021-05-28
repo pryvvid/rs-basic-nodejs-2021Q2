@@ -44,7 +44,7 @@ const createBoard = async ({ title, columns }) => {
 /**
  * Finds board by id and updates it with new info
  * Returns updated board
- * @param {stirng} id Board's id
+ * @param {string} id Board's id
  * @param {Object} newBoardInfo Board's new info
  * @returns {Promise<Object>} Promise of updated board
  */
