@@ -1,13 +1,13 @@
 /** @module TaskRepository */
-const Task = require('./task.model');
+import { Task, ITask } from './task.model';
 
-let taskDB = [];
+let taskDB: Array<ITask>|[] = [];
 
 /**
  * Returns all tasks from database
  * @returns {Promise<Array<Object>|[]>} Promise of array contains all tasks
  */
-const getAll = async () => {
+const getAll = async (): Promise<Array<ITask> | []> => {
   const DB = await taskDB;
   return DB;
 };
@@ -17,7 +17,7 @@ const getAll = async () => {
  * @param {string} id task's id
  * @returns {Promise<Object|null>} Promise of task object or null
  */
-const getOne = async (id) => {
+const getOne = async (id: string): Promise<ITask | null | undefined> => {
   let task = null;
   try {
     task = await taskDB.find((t) => t.id === id);
@@ -48,7 +48,7 @@ const createTask = async ({
   userId,
   boardId,
   columnId,
-}) => {
+}: ITask): Promise<ITask | undefined> => {
   const newTask = new Task({
     title,
     order,
@@ -57,7 +57,7 @@ const createTask = async ({
     boardId,
     columnId,
   });
-  await taskDB.push(newTask);
+  taskDB = await [...taskDB, newTask]
   return taskDB[taskDB.length - 1];
 };
 
@@ -66,24 +66,35 @@ const createTask = async ({
  * Returns updated task
  * @param {string} id Task's id
  * @param {Object} newTaskInfo Task's new info
- * @returns {Promise<Object>} Promise of updated task
+ * @returns {Promise<ITask | undefined>} Promise of updated task
  */
-const updateTask = async (id, newTaskInfo) => {
-  const taskIndex = await taskDB.findIndex((task) => task.id === id);
+const updateTask = async (id: string, newTaskInfo: ITask): Promise<ITask | undefined> => {
+  const taskToUpdate = await taskDB.find((task) => task.id === id);
   const updatedTask = {
-    ...taskDB[taskIndex],
+    ...taskToUpdate,
     ...newTaskInfo,
   };
-  taskDB[taskIndex] = updatedTask;
-  return updateTask;
+  taskDB = await taskDB.filter(task => task.id !== id);
+  taskDB = await [...taskDB, updatedTask];
+  return updatedTask;
 };
+
+// const updateTask = async (id: string, newTaskInfo: ITask): Promise<ITask> => {
+//   const taskIndex = await taskDB.findIndex((task) => task.id === id);
+//   const updatedTask = {
+//     ...taskDB[taskIndex],
+//     ...newTaskInfo,
+//   };
+//   taskDB[taskIndex] = updatedTask;
+//   return updateTask;
+// };
 
 /**
  * Deletes task from database
  * @param {string} id task's id
  * @returns {Promise<void>} Promise of void
  */
-const deleteTask = async (id) => {
+const deleteTask = async (id: string): Promise<void> => {
   taskDB = await taskDB.filter((task) => task.id !== id);
 };
 
@@ -92,7 +103,7 @@ const deleteTask = async (id) => {
  * @param {string} boardId board's id
  * @returns {Promise<void>} Promise of void
  */
-const deleteTasksByBoardId = async (boardId) => {
+const deleteTasksByBoardId = async (boardId: string): Promise<void> => {
   taskDB = await taskDB.filter((task) => task.boardId !== boardId);
 };
 
@@ -101,8 +112,8 @@ const deleteTasksByBoardId = async (boardId) => {
  * @param {string} userId user's id
  * @returns {Promise<void>} Promise of void
  */
-const setUserIdToNull = (userId) => {
-  taskDB = taskDB.map((task) => {
+const setUserIdToNull = async (userId: string): Promise<void> => {
+  taskDB = taskDB.map((task: ITask) => {
     if (task.userId === userId) {
       return { ...task, userId: null };
     }
@@ -110,7 +121,7 @@ const setUserIdToNull = (userId) => {
   });
 };
 
-module.exports = {
+export default {
   getAll,
   getOne,
   createTask,

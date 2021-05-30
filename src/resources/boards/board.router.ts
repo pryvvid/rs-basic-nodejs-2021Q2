@@ -1,11 +1,13 @@
-const router = require('express').Router();
-const boardsService = require('./board.service');
-const Board = require('./board.model');
+import { Router } from 'express';
+import boardsService from './board.service';
+import { Board } from './board.model';
+
+const router = Router();
 
 router
   .route('/')
 
-  .get(async (req, res) => {
+  .get(async (_req, res) => {
     const boards = await boardsService.getAll();
     res.json(boards.map(Board.toResponse));
   })
@@ -13,7 +15,7 @@ router
   .post(async (req, res) => {
     const { title, columns } = req.body;
     const newBoard = await boardsService.createBoard({ title, columns });
-    res.status(201).json(Board.toResponse(newBoard));
+    res.status(201).json(newBoard);
   });
 
 router
@@ -25,7 +27,7 @@ router
     if (!board) {
       res.status(404).json({ error: 'Not found' });
     }
-    res.status(200).json(Board.toResponse(board));
+    res.status(200).json(board);
   })
 
   .put(async (req, res) => {
@@ -45,4 +47,4 @@ router
     res.status(204).json({ message: 'Board was deleted' });
   });
 
-module.exports = router;
+export { router };

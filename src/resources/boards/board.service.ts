@@ -1,26 +1,32 @@
 /** @module BoardService */
-const boardsRepo = require('./board.memory.repository');
-const { deleteTasksByBoardId } = require('../tasks/task.memory.repository');
+import boardsRepo from './board.memory.repository';
+import { IBoard } from './board.model'
+import taskRepo from '../tasks/task.memory.repository';
 
+
+type BoardToUpdate = {
+  title: string,
+  columns: Array<object>
+}
 /**
  * Returns a promise contains all boards
  * @returns {Promise<Array<Object>>} Promise of array contains all boards
  */
-const getAll = async () => boardsRepo.getAll();
+const getAll = async (): Promise<Array<IBoard>> => boardsRepo.getAll();
 
 /**
  * Returns a promise contains board found by id or null
  * @param {string} id Board's id
  * @returns {Promise<Object|null>} Promise of board object or null
  */
-const getOne = async (id) => boardsRepo.getOne(id);
+const getOne = async (id: string): Promise<IBoard | null | undefined> => boardsRepo.getOne(id);
 
 /**
  * Returns a promise contains created board
  * @param {Object} task Board object
  * @returns {Promise<Object>} Promise of created board
  */
-const createBoard = async (board) => boardsRepo.createBoard(board);
+const createBoard = async (board: IBoard): Promise<IBoard | undefined> => boardsRepo.createBoard(board);
 
 /**
  * Returns a promise contains updated board
@@ -28,7 +34,7 @@ const createBoard = async (board) => boardsRepo.createBoard(board);
  * @param {Object} updatedInfo Board's new info
  * @returns {Promise<Object>} Promise of updated board
  */
-const updateBoard = async (id, updatedInfo) => boardsRepo.updateBoard(id, updatedInfo);
+const updateBoard = async (id: string, updatedInfo: BoardToUpdate): Promise<IBoard | undefined> => boardsRepo.updateBoard(id, updatedInfo);
 
 /**
  * Calls two functions
@@ -37,9 +43,9 @@ const updateBoard = async (id, updatedInfo) => boardsRepo.updateBoard(id, update
  * @param {string} id User's id
  * @returns {Promise<void>} Promise of void
  */
-const deleteBoard = async (id) => {
-  await deleteTasksByBoardId(id)
+const deleteBoard = async (id: string): Promise<void> => {
+  await taskRepo.deleteTasksByBoardId(id)
   await boardsRepo.deleteBoard(id);
 }
 
-module.exports = { getAll, getOne, createBoard, updateBoard, deleteBoard };
+export default { getAll, getOne, createBoard, updateBoard, deleteBoard };

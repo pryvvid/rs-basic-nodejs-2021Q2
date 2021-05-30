@@ -1,11 +1,13 @@
-const router = require('express').Router();
-const User = require('./user.model');
-const usersService = require('./user.service');
+import { Router } from 'express';
+import { User } from './user.model';
+import usersService from './user.service';
+
+const router = Router()
 
 router
   .route('/')
 
-  .get(async (req, res) => {
+  .get(async (_req, res) => {
     const users = await usersService.getAll();
     // map user fields to exclude secret fields like "password"
     res.json(users.map(User.toResponse));
@@ -14,19 +16,20 @@ router
   .post(async (req, res) => {
     const { name, login, password } = req.body;
     const newUser = await usersService.createUser({ name, login, password });
-    res.status(201).json(User.toResponse(newUser));
+    res.status(201).json(newUser);
   });
 
 router
   .route('/:id')
 
   .get(async (req, res) => {
-    const { id } = req.params;
+    // const { id } = req.params;
+    const {id} = req.params;
     const user = await usersService.getOne(id);
     if (!user) {
       res.status(404).json({ error: 'Not found' });
     }
-    res.status(200).json(User.toResponse(user));
+    res.status(200).json(user);
   })
 
   .put(async (req, res) => {
@@ -47,4 +50,4 @@ router
     res.status(204).json({ message: 'User was deleted' });
   });
 
-module.exports = router;
+export { router };

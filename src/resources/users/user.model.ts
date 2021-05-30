@@ -1,10 +1,25 @@
-const uuid = require('uuid').v4;
+import { v4 } from "uuid";
+
+const uuid = v4;
+
+interface IUser {
+  id?: string;
+  name: string;
+  login: string;
+  password: string;
+}
+
+type UserToResponse = {
+  id?: string,
+  name: string,
+  login: string
+};
 
 /**
  * @class
  * Class to create a user object
  */
-class User {
+class User implements IUser {
   /**
    * @param {Object} userObject Object with properties 'id, name, login, password'
    * @param {string} userObject.id User's id
@@ -17,7 +32,7 @@ class User {
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd'
-  } = {}) {
+  } = {} as IUser) {
     /**
      * @property {string} id User's id
      */
@@ -36,14 +51,22 @@ class User {
     this.password = password;
   }
 
+  id: string;
+
+  name: string;
+
+  login: string
+
+  password: string;
+
   /**
    * @property {Function} toResponse Returns user object without password property
    * @returns {Object}
    */
-  static toResponse(user) {
+  static toResponse(user: IUser): UserToResponse {
     const { id, name, login } = user;
     return { id, name, login };
   }
 }
 
-module.exports = User;
+export { User, IUser };

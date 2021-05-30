@@ -1,13 +1,18 @@
 /** @module BoardRepository */
-const Board = require('./board.model');
+import { Board, IBoard } from './board.model';
 
-let boardDB = [];
+type createdBoard = {
+  title: string,
+  columns: Array<object>
+}
+
+let boardDB: Array<IBoard> = [];
 
 /**
  * Returns all boards from database
  * @returns {Promise<Array<Object>|[]>} Promise of array contains all boards
  */
-const getAll = async () => {
+const getAll = async (): Promise<Array<IBoard> | []> => {
   const DB = await boardDB;
   return DB;
 };
@@ -17,7 +22,7 @@ const getAll = async () => {
  * @param {string} id board's id
  * @returns {Promise<Object|null>} Promise of board object or null
  */
-const getOne = async (id) => {
+const getOne = async (id: string | undefined): Promise<IBoard | null | undefined> => {
   let board = null;
   try {
     board = await boardDB.find((b) => b.id === id);
@@ -36,7 +41,7 @@ const getOne = async (id) => {
  * @param {Array<Object>} board.columns Board's columns
  * @returns {Promise<Object>} Promise of created board
  */
-const createBoard = async ({ title, columns }) => {
+const createBoard = async ({ title, columns }: IBoard): Promise<IBoard | undefined> => {
   await boardDB.push(new Board({ title, columns }));
   return boardDB[boardDB.length - 1];
 };
@@ -48,7 +53,7 @@ const createBoard = async ({ title, columns }) => {
  * @param {Object} newBoardInfo Board's new info
  * @returns {Promise<Object>} Promise of updated board
  */
-const updateBoard = async (id, newBoardInfo) => {
+const updateBoard = async (id: string, newBoardInfo: createdBoard): Promise<IBoard | undefined> => {
   const boardIndex = await boardDB.findIndex((board) => board.id === id);
   const updatedBoard = {
     ...boardDB[boardIndex],
@@ -63,8 +68,8 @@ const updateBoard = async (id, newBoardInfo) => {
  * @param {string} id board's id
  * @returns {Promise<void>} Promise of void
  */
-const deleteBoard = async (id) => {
+const deleteBoard = async (id: string): Promise<void> => {
   boardDB = await boardDB.filter((board) => board.id !== id);
 };
 
-module.exports = { getAll, getOne, createBoard, updateBoard, deleteBoard };
+export default { getAll, getOne, createBoard, updateBoard, deleteBoard };

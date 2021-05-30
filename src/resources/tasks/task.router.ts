@@ -1,11 +1,13 @@
-const router = require('express').Router({ mergeParams: true });
-const Task = require('./task.model');
-const tasksService = require('./task.service');
+import { Router } from 'express';
+import { Task } from './task.model';
+import tasksService from './task.service';
+
+const router = Router({ mergeParams: true });
 
 router
-  .route('/')
+  .route('/:boardId/tasks')
 
-  .get(async (req, res) => {
+  .get(async (_req, res) => {
     const tasks = await tasksService.getAll();
     res.json(tasks.map(Task.toResponse));
   })
@@ -21,11 +23,11 @@ router
       boardId,
       columnId,
     });
-    res.status(201).json(Task.toResponse(newTask));
+    res.status(201).json(newTask);
   });
 
 router
-  .route('/:id')
+  .route('/:boardId/tasks/:id')
 
   .get(async (req, res) => {
     const { id } = req.params;
@@ -33,7 +35,7 @@ router
     if (!task) {
       res.status(404).json({ error: 'Not found' });
     }
-    res.status(200).json(Task.toResponse(task));
+    res.status(200).json(task);
   })
 
   .put(async (req, res) => {
@@ -57,4 +59,4 @@ router
     res.status(204).json({ message: 'Task was deleted' });
   });
 
-module.exports = router;
+export { router };

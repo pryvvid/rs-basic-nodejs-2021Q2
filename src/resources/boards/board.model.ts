@@ -1,10 +1,22 @@
-const uuid = require('uuid').v4;
+import { v4 } from "uuid";
+
+const uuid = v4;
+
+interface IColumn {
+  id?: string
+}
+
+interface IBoard {
+  id?: string;
+  title: string;
+  columns: Array<IColumn>|[]
+}
 
 /**
  * @class
  * Class to create a board object
  */
-class Board {
+class Board implements IBoard {
   /**
    * @param {Object} boardObject Object with properties 'id, title, columns'
    * @param {string} boardObject.id Board's id
@@ -15,7 +27,7 @@ class Board {
     id = uuid(),
     title = 'New board',
     columns = []
-  } = {}) {
+  } = {} as IBoard) {
     /**
      * @property {string} id Board's id
      */
@@ -30,13 +42,19 @@ class Board {
     this.columns = columns.map(col => ({ id: uuid(), ...col }));
   }
 
+  id?: string | undefined;
+
+  title: string;
+
+  columns: Array<IColumn>|[];
+
   /**
    * @property {Function} toResponse Returns board object
    * @returns {Object} Board object
    */
-  static toResponse(board) {
+  static toResponse(board: IBoard) {
     return board;
   }
 }
 
-module.exports = Board;
+export { Board, IBoard };

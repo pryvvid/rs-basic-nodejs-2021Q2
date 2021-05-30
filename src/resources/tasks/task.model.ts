@@ -1,10 +1,22 @@
-const uuid = require('uuid').v4;
+import { v4 } from "uuid";
+
+const uuid = v4;
+
+interface ITask {
+  id?: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string | null;
+  columnId: string | null;
+}
 
 /**
  * @class
  * Class to create a task object
  */
-class Task {
+class Task implements ITask {
   /**
    * @param {Object} taskObject Object with properties 'id, title, order, description, userId, boardId, columnId'
    * @param {string} taskObject.id Task's id
@@ -23,7 +35,7 @@ class Task {
     userId = null,
     boardId = null,
     columnId = null,
-  } = {}) {
+  } = {} as ITask) {
     /**
      * @property {string} id Task's id
      */
@@ -54,13 +66,21 @@ class Task {
     this.columnId = columnId;
   }
 
+  id?: string | undefined;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string | null;
+  columnId: string | null;
+
   /**
    * @property {Function} toResponse Returns task object
    * @returns {Object} Task object
    */
-  static toResponse(task) {
+  static toResponse(task: ITask) {
     return task;
   }
 }
 
-module.exports = Task;
+export { Task, ITask };
