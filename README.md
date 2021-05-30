@@ -29,10 +29,16 @@ npm install
 npm run doc
 ```
 
+## Building application
+
+```
+npm run build
+```
+
 ## Running application
 
 ```
-npm start
+npm run server
 ```
 
 After starting the app on port (4000 as default) you can open
