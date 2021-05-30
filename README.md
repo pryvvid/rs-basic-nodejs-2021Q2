@@ -25,6 +25,8 @@ npm install
 
 ## Running JSDoc
 
+!!! Make sure you running [this build](https://github.com/pryvvid/rs-basic-nodejs-2021Q2/releases/tag/task4-part1-solution)
+
 ```
 npm run doc
 ```

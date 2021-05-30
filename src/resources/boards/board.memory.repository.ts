@@ -1,7 +1,7 @@
 /** @module BoardRepository */
 import { Board, IBoard } from './board.model';
 
-type createdBoard = {
+type CreatedBoard = {
   title: string,
   columns: Array<object>
 }
@@ -53,7 +53,7 @@ const createBoard = async ({ title, columns }: IBoard): Promise<IBoard | undefin
  * @param {Object} newBoardInfo Board's new info
  * @returns {Promise<Object>} Promise of updated board
  */
-const updateBoard = async (id: string, newBoardInfo: createdBoard): Promise<IBoard | undefined> => {
+const updateBoard = async (id: string, newBoardInfo: CreatedBoard): Promise<IBoard | undefined> => {
   const boardIndex = await boardDB.findIndex((board) => board.id === id);
   const updatedBoard = {
     ...boardDB[boardIndex],

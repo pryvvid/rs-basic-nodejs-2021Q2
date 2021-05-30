@@ -27,7 +27,7 @@ const getOne = async (id: string): Promise<IUser | null | undefined> => {
   return user;
 };
 
-type createdUser = {
+type CreatedUser = {
   name: string,
   login: string,
   password: string
@@ -43,7 +43,7 @@ type createdUser = {
  * @param {string} user.password User's password
  * @returns {Promise<Object>} Promise of created user
  */
-const createUser = async ({ name, login, password }: createdUser): Promise<IUser|undefined> => {
+const createUser = async ({ name, login, password }: CreatedUser): Promise<IUser|undefined> => {
   const newUser = new User({ name, login, password })
   userDB = await [...userDB, newUser];
   return userDB[userDB.length - 1];

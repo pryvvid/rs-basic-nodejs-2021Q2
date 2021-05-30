@@ -26,10 +26,8 @@
   "plugins": ["@typescript-eslint"],
   "extends": [
     "eslint:recommended",
-    "plugin:node/recommended",
     "airbnb-typescript/base",
-    "prettier",
-    "plugin:@typescript-eslint/recommended"
+    "prettier"
   ],
   "rules": {
     "import/extensions": "off",
