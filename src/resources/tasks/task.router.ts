@@ -1,18 +1,22 @@
-import { Router } from 'express';
+import { Request, Router } from 'express';
 import { Task } from './task.model';
 import tasksService from './task.service';
+
+interface RequestParams {
+  boardId: string;
+}
 
 const router = Router({ mergeParams: true });
 
 router
-  .route('/:boardId/tasks')
+  .route('/')
 
   .get(async (_req, res) => {
     const tasks = await tasksService.getAll();
     res.json(tasks.map(Task.toResponse));
   })
 
-  .post(async (req, res) => {
+  .post(async (req: Request<RequestParams>, res) => {
     const { boardId } = req.params;
     const { title, order, description, userId, columnId } = req.body;
     const newTask = await tasksService.createTask({
@@ -27,7 +31,7 @@ router
   });
 
 router
-  .route('/:boardId/tasks/:id')
+  .route('/:id')
 
   .get(async (req, res) => {
     const { id } = req.params;
