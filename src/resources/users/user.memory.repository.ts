@@ -18,7 +18,7 @@ const getAll = async (): Promise<Array<IUser> | []> => {
  * @returns {Promise<Object|undefined>} Promise of user object or undefined
  */
 const getOne = async (id: string): Promise<IUser | null | undefined> => {
-  let user = undefined;
+  let user;
   try {
     user = await userDB.find((u) => u.id === id);
   } catch (e) {

@@ -25,10 +25,10 @@ router
     try {
       const { boardId } = req.params;
       const { title, order, description, userId, columnId } = req.body;
-      if (!title || !order || !description|| !userId || !columnId) {
-        next(ApiError.badRequest('Body must contain "title", "order", "description", "userId", "columnId" fields'));
-        return;
-      }
+      // if (!title || !order || !description|| !userId || !columnId) {
+      //   next(ApiError.badRequest('Body must contain "title", "order", "description", "userId", "columnId" fields'));
+      //   return;
+      // }
       const newTask = await tasksService.createTask({
         title,
         order,
@@ -39,41 +39,58 @@ router
       });
       res.status(201).json(newTask);
     } catch(e) {
-      next(e)
+      next(e);
     }
   });
 
 router
   .route('/:id')
 
-  .get(async (req, res) => {
-    const { id } = req.params;
-    const task = await tasksService.getOne(id);
-    if (!task) {
-      res.status(404).json({ error: 'Not found' });
+  .get(async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const task = await tasksService.getOne(id);
+      if (!task) {
+        // res.status(404).json({ error: 'Not found' });
+        next(ApiError.notFound('Board is not found'))
+        return;
+      }
+      res.status(200).json(task);
+    } catch (e) {
+      next(e)
     }
-    res.status(200).json(task);
+    
   })
 
-  .put(async (req, res) => {
-    const { id } = req.params;
-    const { title, order, description, userId, boardId, columnId } = req.body;
-    const updatedTask = {
-      title,
-      order,
-      description,
-      userId,
-      boardId,
-      columnId,
-    };
-    const taskAfterUpdate = await tasksService.updateTask(id, updatedTask);
-    res.status(200).json(taskAfterUpdate);
+  .put(async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { title, order, description, userId, boardId, columnId } = req.body;
+      const updatedTask = {
+        title,
+        order,
+        description,
+        userId,
+        boardId,
+        columnId,
+      };
+      const taskAfterUpdate = await tasksService.updateTask(id, updatedTask);
+      res.status(200).json(taskAfterUpdate);
+    } catch (e) {
+      next(e);
+    }
+
   })
 
-  .delete(async (req, res) => {
-    const { id } = req.params;
-    await tasksService.deleteTask(id);
-    res.status(204).json({ message: 'Task was deleted' });
+  .delete(async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      await tasksService.deleteTask(id);
+      res.status(204).json({ message: 'Task was deleted' });
+    } catch (e) {
+      next(e);
+    }
+    
   });
 
 export { router };

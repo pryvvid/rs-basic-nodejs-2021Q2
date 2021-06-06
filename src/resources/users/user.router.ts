@@ -20,17 +20,16 @@ router
 
   .post(async (req, res, next) => {
     try {
-      let newUser = undefined;
       const { name, login, password } = req.body;
       if (!name || !login || !password) {
         next(ApiError.badRequest('Body must contain "name", "login", "password" fields'));
         return
       }
-      newUser = await usersService.createUser({ name, login, password });
+      const newUser = await usersService.createUser({ name, login, password });
       res.status(201).json(User.toResponse(newUser as IUser));
     } catch(e) {
       next(e)
-      return
+      
     }
   });
 
@@ -39,9 +38,8 @@ router
 
   .get(async (req, res, next) => {
     try {
-      let user = undefined
       const { id } = req.params;
-      user = await usersService.getOne(id);
+      const user = await usersService.getOne(id);
       if (!user) {
         next(ApiError.notFound('User is not found'))
         return;
