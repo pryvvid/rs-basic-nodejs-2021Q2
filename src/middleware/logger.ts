@@ -9,8 +9,8 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
 
   finished(res, () => {
     const { statusCode } = res;
-    const formattedQuery = Object.entries(query);
-    const formattedBody = Object.entries(body);
+    const formattedQuery = JSON.stringify(query);
+    const formattedBody = JSON.stringify(body);
     const message = `\nUrl: ${url}\nQuery: ${formattedQuery}\nBody: ${formattedBody}\nStatus code: ${statusCode}\n`;
     process.stdout.write(message)
     writeStream.write((new Date()).toUTCString());
