@@ -3,11 +3,11 @@ import express, { Request, Response, NextFunction } from 'express';
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
+import { writeFileSync } from 'fs';
 import { router as userRouter } from './resources/users/user.router';
 import { router as boardRouter } from './resources/boards/board.router';
 import { router as taskRouter } from './resources/tasks/task.router';
 import { logger } from './middleware/logger';
-// import { createLogger } from './utils/writeLog';
 import { apiErrorHandler } from './middleware/errorHandler';
 
 const app = express();
@@ -32,48 +32,27 @@ app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
 app.use(apiErrorHandler);
 
-// process.on('uncaughtException', (error) => {
-//   const writeStream = createLogger('./errorLog.txt');
-//   writeStream.write((new Date()).toUTCString());
-//   writeStream.write('\n');
-//   writeStream.write(error.message);
-//   writeStream.write('\n');
-//   writeStream.write(error.stack);
-//   writeStream.write('\n');
-//   writeStream.end();
-//   process.stdout.write("uncaughtException occured\nExit from app");
-//   process.exit(1);
-// });
+process.on('uncaughtException', (error) => {
+  const date = new Date().toUTCString();
+  const message = `\n${date}\n${error.message}\n${error.stack}`;
+  const logPath = path.join(__dirname, "./logs/errorLog.txt")
+  writeFileSync(logPath, message, {flag: 'a'});
+  process.stdout.write("uncaughtException occured\nExit from app");
+  process.exit(1);
+});
 
-// interface unhandledRejectionError {
-//   message: string;
-//   stack: string;
-// }
+interface IUnhandledRejectionError {
+  message: string;
+  stack: string;
+}
 
-// process.on('unhandledRejection', (error: unhandledRejectionError, p) => {
-//   console.log("Error message:", error.message);
-//   console.log("Error stack:", error.stack);
-//   console.log("Promise:", p);
-//   const writeStream = createLogger('./errorLog.txt');
-//   writeStream.write((new Date()).toUTCString());
-//   writeStream.write('\n');
-//   writeStream.write(error.message.toString());
-//   writeStream.write('\n');
-//   writeStream.write(error.stack.toString());
-//   writeStream.write('\n');
-//   // writeStream.write(p);
-//   // writeStream.write('\n');
-//   writeStream.end();
-//   process.stdout.write("unhandledRejection occured\nExit from app");
-//   process.exit(1);
-// });
-
-// setTimeout(() => {
-//   app.emit('uncaughtException')
-// }, 5000)
-
-// setTimeout(() => {
-//   Promise.reject(Error('Oops!'));
-// }, 3000)
+process.on('unhandledRejection', (error: IUnhandledRejectionError) => {
+  const date = new Date().toUTCString();
+  const message = `\n${date}\n${error.message}\n${error.stack}`;
+  const logPath = path.join(__dirname, "./logs/errorLog.txt")
+  writeFileSync(logPath, message, {flag: 'a'});
+  process.stdout.write("\nunhandledRejection occured\nExit from app");
+  process.exit(1);
+});
 
 export { app };

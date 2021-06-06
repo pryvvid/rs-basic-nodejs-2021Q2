@@ -5,6 +5,7 @@ interface IApiError {
 
 class ApiError implements IApiError {
   code: number;
+
   message: string;
 
   constructor(code: number, message: string) {

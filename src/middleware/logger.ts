@@ -4,14 +4,14 @@ import { createLogger } from '../utils/writeLog';
 
 const logger = (req: Request, res: Response, next: NextFunction) => {
   const { url, query, body }: {url: string, query: object, body: object} = req;
-  const writeStream = createLogger('./../log.txt')
+  const writeStream = createLogger('./../logs/log.txt')
   next()
 
   finished(res, () => {
     const { statusCode } = res;
-    // const formattedQuery = Object.entries(query);
-    // const formattedBody = Object.entries(body);
-    const message = `\nUrl: ${url}\nQuery: ${query}\nBody: ${body}\nStatus code: ${statusCode}\n`;
+    const formattedQuery = Object.entries(query);
+    const formattedBody = Object.entries(body);
+    const message = `\nUrl: ${url}\nQuery: ${formattedQuery}\nBody: ${formattedBody}\nStatus code: ${statusCode}\n`;
     process.stdout.write(message)
     writeStream.write((new Date()).toUTCString());
     writeStream.write(message.toString());
