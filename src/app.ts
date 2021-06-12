@@ -21,7 +21,7 @@ app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use('/', (req: Request, res: Response, next: NextFunction) => {
   if (req.originalUrl === '/') {
-    res.send('TS Service is running!');
+    res.send('Docker TS Service is running!');
     return;
   }
   next();
@@ -54,5 +54,9 @@ process.on('unhandledRejection', (error: IUnhandledRejectionError) => {
   process.stdout.write("\nunhandledRejection occured\nExit from app");
   process.exit(1);
 });
+
+// setTimeout(() => {
+//   throw new Error('oopps!')
+// }, 1000);
 
 export { app };
