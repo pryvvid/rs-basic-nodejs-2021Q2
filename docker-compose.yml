@@ -1,9 +1,10 @@
-version: '3'
+version: '3.8'
 
 services:
   node:
     build: .
     container_name: node_rest_api
+    image: 'pryvvid/node_rest_api:node'
     ports: 
       - ${PORT}:${PORT}
     depends_on: 
@@ -12,6 +13,7 @@ services:
       - PORT=${PORT}
     volumes:
       - .:/usr/app
+      - ./src:/usr/app/src
       - ./logs:/usr/app/src/logs
     networks: 
       - bridge
@@ -19,6 +21,7 @@ services:
   postgres:
     build: ./database/
     container_name: postgres_rest_api
+    image: 'pryvvid/postgres_rest_api:postgres'
     ports: 
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     environment: 
