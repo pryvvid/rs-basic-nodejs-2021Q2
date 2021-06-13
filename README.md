@@ -14,7 +14,7 @@ git clone https://github.com/pryvvid/rs-basic-nodejs-2021Q2.git
 ## Switching to dev branch
 
 ```
-git checkout task-2/express-rest-service
+git checkout task4/typescript-basics
 ```
 
 ## Installing NPM modules
@@ -23,10 +23,24 @@ git checkout task-2/express-rest-service
 npm install
 ```
 
+## Running JSDoc
+
+!!! Make sure you running [this build](https://github.com/pryvvid/rs-basic-nodejs-2021Q2/releases/tag/task4-part1-solution)
+
+```
+npm run doc
+```
+
+## Building application
+
+```
+npm run build
+```
+
 ## Running application
 
 ```
-npm start
+npm run server
 ```
 
 After starting the app on port (4000 as default) you can open
