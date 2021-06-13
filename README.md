@@ -17,18 +17,6 @@ git clone https://github.com/pryvvid/rs-basic-nodejs-2021Q2.git
 git checkout task6/docker-basics
 ```
 
-## Installing NPM modules
-
-```
-npm install
-```
-
-## Running application
-
-```
-npm start
-```
-
 ## Running application in docker
 
 ```
@@ -40,6 +28,18 @@ docker-compose up
 ```
 https://hub.docker.com/r/pryvvid/node_rest_api
 https://hub.docker.com/r/pryvvid/postgres_rest_api
+```
+
+## Installing NPM modules
+
+```
+npm install
+```
+
+## Running application
+
+```
+npm start
 ```
 
 ## Building application
