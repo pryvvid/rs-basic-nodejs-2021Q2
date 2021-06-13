@@ -12,7 +12,6 @@ services:
     environment: 
       - PORT=${PORT}
     volumes:
-      - .:/usr/app
       - ./src:/usr/app/src
       - ./logs:/usr/app/src/logs
     networks: 
