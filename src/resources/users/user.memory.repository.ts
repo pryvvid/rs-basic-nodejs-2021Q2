@@ -15,10 +15,10 @@ const getAll = async (): Promise<Array<IUser> | []> => {
 /**
  * Finds user by id and returns it
  * @param {string} id user's id
- * @returns {Promise<Object|null|undefined>} Promise of user object or null
+ * @returns {Promise<Object|undefined>} Promise of user object or undefined
  */
 const getOne = async (id: string): Promise<IUser | null | undefined> => {
-  let user = null;
+  let user;
   try {
     user = await userDB.find((u) => u.id === id);
   } catch (e) {
