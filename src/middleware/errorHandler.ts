@@ -7,7 +7,7 @@ import { createLogger } from '../utils/writeLog';
 // const { INTERNAL_SERVER_ERROR, BAD_REQUEST } = StatusCodes;
 
 const apiErrorHandler = (err: ErrorRequestHandler, _req: Request, res: Response, _next: NextFunction) => {
-  const log = createLogger('./../logs/errorLog.txt');
+  const log = createLogger('../../logs/errorLog.txt');
   const date = new Date().toUTCString()
   
   if (err instanceof ApiError) {
