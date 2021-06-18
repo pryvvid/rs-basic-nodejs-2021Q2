@@ -1,89 +1,86 @@
 /** @module UserRepository */
-import { User, IUser } from './user.model';
+import { getRepository } from "typeorm";
+import { User } from "../../entity/User";
+import { UserDTO } from "../../common/types";
 
-let userDB: Array<IUser>|[] = [];
+// let userDB: Array<User>|[] = [];
 
-/**
- * Returns all users from database
- * @returns {Promise<Array<Object>|[]>} Promise of array contains all users
- */
-const getAll = async (): Promise<Array<IUser> | []> => {
-  const DB = await userDB;
-  return DB;
+const getAll = async (): Promise<Array<User> | []> => {
+  const userRepository = getRepository(User);
+  const allUsers = await userRepository.find()
+  return allUsers;
 };
 
-/**
- * Finds user by id and returns it
- * @param {string} id user's id
- * @returns {Promise<Object|undefined>} Promise of user object or undefined
- */
-const getOne = async (id: string): Promise<IUser | null | undefined> => {
-  let user;
-  try {
-    user = await userDB.find((u) => u.id === id);
-  } catch (e) {
-    process.stderr.write(e);
-  }
+// const getAll = async (): Promise<Array<User> | []> => {
+//   const DB = await userDB;
+//   return DB;
+// };
+
+const getOne = async (id: string): Promise<User | undefined> => {
+  const userRepository = getRepository(User);
+  const user = await userRepository.findOne(id)
   return user;
 };
 
-type CreatedUser = {
-  name: string,
-  login: string,
-  password: string
-}
-
-/**
- * Creates new user from object
- * Adds it to database
- * Returns created user
- * @param {Object} user Object with properties 'id, name, login, password'
- * @param {string} user.id User's id
- * @param {string} user.name User's name
- * @param {string} user.password User's password
- * @returns {Promise<Object>} Promise of created user
- */
-const createUser = async ({ name, login, password }: CreatedUser): Promise<IUser|undefined> => {
-  const newUser = new User({ name, login, password })
-  userDB = await [...userDB, newUser];
-  return userDB[userDB.length - 1];
-};
-
-/**
- * Finds user by id and updates it with new info
- * Returns updated user
- * @param {string} id User's id
- * @param {Object} newUserInfo User's new info
- * @returns {Promise<Object>} Promise of updated user
- */
-// const updateUser = async (id: string, newUserInfo: object): Promise<IUser|undefined> => {
-//   const userIndex = await userDB.findIndex((user) => user.id === id);
-//   const updatedUser: IUser = {
-//     ...userDB[userIndex],
-//     ...newUserInfo,
-//   };
-//   userDB[userIndex] = updatedUser;
-//   return updatedUser;
+// const getOne = async (id: string): Promise<User | null | undefined> => {
+//   let user;
+//   try {
+//     user = await userDB.find((u) => u.id === id);
+//   } catch (e) {
+//     process.stderr.write(e);
+//   }
+//   return user;
 // };
 
-const updateUser = async (id: string, newUserInfo: object): Promise<IUser|undefined> => {
-  const userToUpdate = await userDB.find((user) => user.id === id);
-  const updatedUser = {
-    ...userToUpdate,
-    ...newUserInfo,
-  };
-  userDB = userDB.filter((user) => user.id !== id);
-  userDB = [...userDB, updatedUser as IUser];
-  return updatedUser as IUser;
+const createUser = async ({ name, login, password }: UserDTO): Promise<User|undefined> => {
+  const userRepository = getRepository(User);
+  const user = new User();
+  user.name = name;
+  user.login = login;
+  user.password = password;
+  await userRepository.save(user);
+  // const createdUser = await userRepository.findOne(user.id)
+  return user;
 };
 
-/**
- * Deletes user from database
- * @param {string} id user's id
- * @returns {Promise<void>} Promise of void
- */
-const deleteUser = async (id: string | undefined): Promise<void> => {
-  userDB = await userDB.filter((user) => user.id !== id);
+// const createUser = async ({ name, login, password }: UserDTO): Promise<User|undefined> => {
+//   const newUser = new User({ name, login, password })
+//   userDB = await [...userDB, newUser];
+//   return userDB[userDB.length - 1];
+// };
+
+const updateUser = async (id: string, newUserInfo: UserDTO): Promise<User|undefined> => {
+  const userRepository = getRepository(User);
+  const userToUpdate = await userRepository.findOne(id);
+  if (userToUpdate) {
+    const updatedUser = { ...userToUpdate, ...newUserInfo }
+    await userRepository.save(updatedUser);
+    return updatedUser;
+  }
+  return undefined;
 };
+
+// const updateUser = async (id: string, newUserInfo: object): Promise<User|undefined> => {
+//   const userToUpdate = await userDB.find((user) => user.id === id);
+//   const updatedUser = {
+//     ...userToUpdate,
+//     ...newUserInfo,
+//   };
+//   userDB = userDB.filter((user) => user.id !== id);
+//   userDB = [...userDB, updatedUser as IUser];
+//   return updatedUser as IUser;
+// };
+
+const deleteUser = async (id: string | undefined): Promise<void> => {
+  const userRepository = getRepository(User);
+  const userToRemove = await userRepository.findOne(id);
+  if (userToRemove) {
+    await userRepository.remove(userToRemove)
+  }
+};
+
+// const deleteUser = async (id: string | undefined): Promise<void> => {
+//   userDB = await userDB.filter((user) => user.id !== id);
+// };
 
 export default { getAll, getOne, createUser, updateUser, deleteUser };

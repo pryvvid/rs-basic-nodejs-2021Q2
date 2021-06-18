@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { IUser, User } from './user.model';
+import { User } from '../../entity/User';
 import usersService from './user.service';
-import { ApiError } from '../../error/ApiError'
+import { ApiError } from '../../error/ApiError';
 
-const router = Router()
+const router = Router();
 
 router
   .route('/')
@@ -26,7 +26,9 @@ router
         return
       }
       const newUser = await usersService.createUser({ name, login, password });
-      res.status(201).json(User.toResponse(newUser as IUser));
+      if (newUser) {
+        res.status(201).json(User.toResponse(newUser));
+      }
     } catch(e) {
       next(e)
       
@@ -44,7 +46,7 @@ router
         next(ApiError.notFound('User is not found'))
         return;
       }
-      res.status(200).json(User.toResponse(user as IUser));
+      res.status(200).json(User.toResponse(user));
     } catch(e) {
       next(e)
     }
