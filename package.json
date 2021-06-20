@@ -16,7 +16,9 @@
     "doc": "./node_modules/.bin/jsdoc src/ -r",
     "build": "tsc -p tsconfig.json",
     "dev": "ts-node-dev ./src/server.ts",
-    "server": "nodemon build/server.js"
+    "server": "nodemon build/server.js",
+    "typeorm:cli": "ts-node ./node_modules/typeorm/cli",
+    "db:create": "npm run typeorm:cli migration:generate -- -n"
   },
   "keywords": [
     "rs",

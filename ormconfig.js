@@ -1,11 +1,11 @@
-{
+export default {
    "type": "postgres",
-   "host": "localhost",
-   "port": 5432,
-   "username": "postgres",
-   "password": "postgres",
-   "database": "test",
-   "synchronize": true,
+   "host": process.env.POSTGRES_HOST,
+   "port": process.env.POSTGRES_PORT,
+   "username": process.env.POSTGRES_USER,
+   "password": process.env.POSTGRES_PASSWORD,
+   "database": process.env.POSTGRES_DB,
+   "synchronize": false,
    "logging": false,
    "entities": [
       "src/entity/**/*.ts"
