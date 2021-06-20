@@ -14,7 +14,20 @@ git clone https://github.com/pryvvid/rs-basic-nodejs-2021Q2.git
 ## Switching to dev branch
 
 ```
-git checkout task4/typescript-basics
+git checkout task6/docker-basics
+```
+
+## Running application in docker
+
+```
+docker-compose up
+```
+
+## Docker images
+
+```
+https://hub.docker.com/r/pryvvid/node_rest_api
+https://hub.docker.com/r/pryvvid/postgres_rest_api
 ```
 
 ## Installing NPM modules
@@ -23,12 +36,10 @@ git checkout task4/typescript-basics
 npm install
 ```
 
-## Running JSDoc
-
-!!! Make sure you running [this build](https://github.com/pryvvid/rs-basic-nodejs-2021Q2/releases/tag/task4-part1-solution)
+## Running application
 
 ```
-npm run doc
+npm start
 ```
 
 ## Building application
@@ -37,7 +48,7 @@ npm run doc
 npm run build
 ```
 
-## Running application
+## Running build application
 
 ```
 npm run server
