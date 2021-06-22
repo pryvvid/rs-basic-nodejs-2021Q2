@@ -9,6 +9,7 @@ import { router as boardRouter } from './resources/boards/board.router';
 import { router as taskRouter } from './resources/tasks/task.router';
 import { logger } from './middleware/logger';
 import { apiErrorHandler } from './middleware/errorHandler';
+import { validateSession } from './middleware/validateSession';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -27,6 +28,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+app.use(validateSession);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
