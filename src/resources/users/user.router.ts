@@ -83,4 +83,20 @@ router
     }
   });
 
+  router
+    .route('/login')
+    .post(async(req, res, next) => {
+      try {
+        const { login, password } = req.body;
+        const token = await usersService.authorizeUser(login, password);
+        if (!token) {
+          next(ApiError.forbidden('Forbidden'));
+          return
+        }
+        res.status(200).json(token);
+      } catch(e) {
+        next(e)
+      }
+    })
+
 export { router };

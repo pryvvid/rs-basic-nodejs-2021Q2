@@ -2,7 +2,7 @@
 import usersRepo from './user.memory.repository';
 import taskRepo from '../tasks/task.memory.repository';
 import { User } from "../../entity/User"
-import { UserDTO } from "../../common/types"
+import { UserDTO, JwtToken } from "../../common/types"
 
 const getAll = async (): Promise<Array<User>> => usersRepo.getAll();
 
@@ -17,4 +17,9 @@ const deleteUser = async (id: string): Promise<void> => {
   await usersRepo.deleteUser(id);
 };
 
-export default { getAll, getOne, createUser, updateUser, deleteUser };
+const authorizeUser = async (login: string, password: string): Promise<JwtToken|undefined> => {
+  const token = await usersRepo.authorizeUser(login, password);
+  return token;
+}
+
+export default { getAll, getOne, createUser, updateUser, deleteUser, authorizeUser };
