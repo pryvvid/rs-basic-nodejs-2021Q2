@@ -16,7 +16,9 @@
     "doc": "./node_modules/.bin/jsdoc src/ -r",
     "build": "tsc -p tsconfig.json",
     "dev": "ts-node-dev ./src/server.ts",
-    "server": "nodemon build/server.js"
+    "server": "nodemon build/server.js",
+    "typeorm:cli": "ts-node ./node_modules/typeorm/cli",
+    "db:create": "npm run typeorm:cli migration:generate -- -n"
   },
   "keywords": [
     "rs",
@@ -52,7 +54,10 @@
     "dotenv": "9.0.0",
     "express": "4.17.1",
     "http-status-codes": "^2.1.4",
+    "pg": "^8.6.0",
+    "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "4.1.6",
+    "typeorm": "^0.2.34",
     "uuid": "8.3.2",
     "winston": "^3.3.3",
     "yamljs": "0.3.0"

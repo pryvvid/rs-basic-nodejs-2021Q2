@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import boardsService from './board.service';
-import { Board } from './board.model';
 import { ApiError } from '../../error/ApiError';
 
 const router = Router();
@@ -11,7 +10,7 @@ router
   .get(async (_req, res, next) => {
     try {
       const boards = await boardsService.getAll();
-      res.json(boards.map(Board.toResponse));
+      res.json(boards);
     } catch (e) {
       next(e)
     }

@@ -1,8 +1,8 @@
 FROM node:14.17-alpine
 ENV PORT=4000
 WORKDIR /usr/app
-COPY package*.json /usr/app/
+COPY package*.json .
 RUN npm install
-COPY . /usr/app/
+COPY . .
 EXPOSE ${PORT}
 CMD ["npm", "run", "start"]

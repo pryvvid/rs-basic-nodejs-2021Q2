@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-
+import "reflect-metadata";
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
@@ -35,9 +35,9 @@ app.use(apiErrorHandler);
 process.on('uncaughtException', (error) => {
   const date = new Date().toUTCString();
   const message = `\n${date}\n${error.message}\n${error.stack}`;
-  const logPath = path.join(__dirname, "./logs/errorLog.txt")
+  const logPath = path.join(__dirname, "../logs/errorLog.txt")
   writeFileSync(logPath, message, {flag: 'a'});
-  process.stdout.write("uncaughtException occured\nExit from app");
+  process.stdout.write("uncaughtException occured\nExit from app\n");
   process.exit(1);
 });
 
@@ -49,9 +49,9 @@ interface IUnhandledRejectionError {
 process.on('unhandledRejection', (error: IUnhandledRejectionError) => {
   const date = new Date().toUTCString();
   const message = `\n${date}\n${error.message}\n${error.stack}`;
-  const logPath = path.join(__dirname, "./logs/errorLog.txt")
+  const logPath = path.join(__dirname, "../logs/errorLog.txt")
   writeFileSync(logPath, message, {flag: 'a'});
-  process.stdout.write("\nunhandledRejection occured\nExit from app");
+  process.stdout.write("\nunhandledRejection occured\nExit from app\n");
   process.exit(1);
 });
 

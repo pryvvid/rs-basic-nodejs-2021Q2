@@ -1,5 +1,4 @@
 import { Request, Router } from 'express';
-import { Task } from './task.model';
 import tasksService from './task.service';
 import { ApiError } from '../../error/ApiError'
 
@@ -15,7 +14,7 @@ router
   .get(async (_req, res, next) => {
     try {
       const tasks = await tasksService.getAll();
-      res.json(tasks.map(Task.toResponse));
+      res.json(tasks);
     } catch(e) {
       next(e)
     }
