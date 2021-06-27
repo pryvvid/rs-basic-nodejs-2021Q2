@@ -7,6 +7,7 @@ import { writeFileSync } from 'fs';
 import { router as userRouter } from './resources/users/user.router';
 import { router as boardRouter } from './resources/boards/board.router';
 import { router as taskRouter } from './resources/tasks/task.router';
+import { router as loginRouter } from './resources/login/login.router';
 import { logger } from './middleware/logger';
 import { apiErrorHandler } from './middleware/errorHandler';
 import { validateSession } from './middleware/validateSession';
@@ -29,6 +30,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use(validateSession);
+app.use('/login', loginRouter)
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
