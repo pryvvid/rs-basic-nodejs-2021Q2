@@ -11,7 +11,7 @@ const validateSession = async (req: Request, res: Response, next: NextFunction) 
     return next();
   }
   const sessionToken = req.headers.authorization;
-  process.stdout.write(sessionToken as string);
+  // console.log(sessionToken);
   if (!sessionToken) return res.status(401).send({ message: "No token provided." });
   return next();
 }

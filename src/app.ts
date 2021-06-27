@@ -3,6 +3,7 @@ import "reflect-metadata";
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
+import cors from 'cors';
 import { writeFileSync } from 'fs';
 import { router as userRouter } from './resources/users/user.router';
 import { router as boardRouter } from './resources/boards/board.router';
@@ -15,6 +16,7 @@ import { validateSession } from './middleware/validateSession';
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
+app.use(cors());
 app.use(express.json());
 
 app.all('*', logger)
