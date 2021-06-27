@@ -17,6 +17,10 @@ class ApiError implements IApiError {
     return new ApiError(400, msg)
   }
 
+  static unauthorized(msg: string) {
+    return new ApiError(401, msg)
+  }
+
   static forbidden(msg: string) {
     return new ApiError(403, msg)
   }
