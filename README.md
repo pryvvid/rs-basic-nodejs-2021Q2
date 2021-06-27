@@ -14,7 +14,7 @@ git clone https://github.com/pryvvid/rs-basic-nodejs-2021Q2.git
 ## Switching to dev branch
 
 ```
-git checkout task6/docker-basics
+git checkout task8/authentification-jwt
 ```
 
 ## Running application in docker
