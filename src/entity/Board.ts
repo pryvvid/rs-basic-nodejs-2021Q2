@@ -1,16 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 class Board {
-
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id?: string;
 
   @Column()
   title: string;
 
-  @Column({ type: "json", nullable: true })
+  @Column({ type: 'json', nullable: true })
   columns?: string;
 }
 
-export { Board }
+export { Board };

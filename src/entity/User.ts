@@ -1,10 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import { UserToResponse } from "../common/types";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { UserToResponse } from '../common/types';
 
 @Entity()
 class User {
-
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id?: string;
 
   @Column()
