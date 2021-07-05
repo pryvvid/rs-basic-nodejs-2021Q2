@@ -14,3 +14,7 @@ export type BoardDTO = {
   title: string,
   columns: string
 }
+
+export type JwtToken = {
+  token: string
+}

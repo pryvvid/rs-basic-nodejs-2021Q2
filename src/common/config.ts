@@ -8,9 +8,13 @@ dotenv.config({
 export const {
   PORT,
   NODE_ENV,
-  MONGO_CONNECTION_STRING,
   JWT_SECRET_KEY,
-  AUTH_MODE
+  AUTH_MODE,
+  POSTGRES_PORT,
+  POSTGRES_HOST,
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  POSTGRES_DB
 } = process.env;
 
 // module.exports = {

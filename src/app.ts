@@ -3,16 +3,20 @@ import "reflect-metadata";
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
+import cors from 'cors';
 import { writeFileSync } from 'fs';
 import { router as userRouter } from './resources/users/user.router';
 import { router as boardRouter } from './resources/boards/board.router';
 import { router as taskRouter } from './resources/tasks/task.router';
+import { router as loginRouter } from './resources/login/login.router';
 import { logger } from './middleware/logger';
 import { apiErrorHandler } from './middleware/errorHandler';
+import { validateSession } from './middleware/validateSession';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
+app.use(cors());
 app.use(express.json());
 
 app.all('*', logger)
@@ -27,6 +31,8 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+app.use(validateSession);
+app.use('/login', loginRouter)
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);

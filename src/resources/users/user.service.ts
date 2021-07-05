@@ -1,8 +1,8 @@
 /** @module UserService */
 import usersRepo from './user.memory.repository';
 import taskRepo from '../tasks/task.memory.repository';
-import { User } from "../../entity/User"
-import { UserDTO } from "../../common/types"
+import { User } from "../../entity/User";
+import { UserDTO } from "../../common/types";
 
 const getAll = async (): Promise<Array<User>> => usersRepo.getAll();
 
