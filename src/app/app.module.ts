@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from '../resources/users/users.module';
 import { BoardsModule } from '../resources/boards/boards.module';
 import { TasksModule } from '../resources/tasks/tasks.module';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from '../filters/exception.filter';
 
 @Module({
   imports: [
@@ -25,6 +27,11 @@ import { TasksModule } from '../resources/tasks/tasks.module';
     TasksModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}
