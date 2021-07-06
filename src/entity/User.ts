@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { UserToResponse } from '../common/types';
 
 @Entity()
@@ -18,6 +19,11 @@ class User {
   static toResponse(user: User): UserToResponse {
     const { id, name, login } = user;
     return { id, name, login };
+  }
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
   }
 }
 

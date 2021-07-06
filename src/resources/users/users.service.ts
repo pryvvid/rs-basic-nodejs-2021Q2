@@ -5,7 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '../../entity/User';
 import { Task } from '../../entity/Task';
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -20,9 +20,9 @@ export class UsersService {
     const user = new User();
     user.name = name;
     user.login = login;
-    // user.password = password;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user.password = hashedPassword;
+    user.password = password;
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // user.password = hashedPassword;
     await this.usersRepository.save(user);
     return User.toResponse(user);
   }
