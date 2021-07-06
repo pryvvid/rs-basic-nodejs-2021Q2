@@ -3,9 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -16,27 +17,35 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
+  async create(
+    @Param('boardId') boardId,
+    @Body() createTaskDto: CreateTaskDto,
+  ) {
+    createTaskDto.boardId = boardId;
     return this.tasksService.create(createTaskDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.tasksService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasksService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const task = await this.tasksService.findOne(id);
+    if (!task) throw new NotFoundException();
+    return task;
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(+id, updateTaskDto);
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
+    const task = await this.tasksService.update(id, updateTaskDto);
+    if (!task) throw new NotFoundException();
+    return task;
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tasksService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return this.tasksService.remove(id);
   }
 }

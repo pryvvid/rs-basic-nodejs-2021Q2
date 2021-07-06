@@ -4,7 +4,7 @@ import { UserToResponse } from '../common/types';
 @Entity()
 class User {
   @PrimaryGeneratedColumn('uuid')
-  id?: string;
+  id: string;
 
   @Column()
   name: string;
@@ -17,7 +17,7 @@ class User {
 
   static toResponse(user: User): UserToResponse {
     const { id, name, login } = user;
-    return { id, name, login } as UserToResponse;
+    return { id, name, login };
   }
 }
 

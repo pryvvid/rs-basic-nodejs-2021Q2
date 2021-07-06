@@ -1,1 +1,4 @@
-export class CreateBoardDto {}
+export class CreateBoardDto {
+  title: string;
+  columns: string;
+}

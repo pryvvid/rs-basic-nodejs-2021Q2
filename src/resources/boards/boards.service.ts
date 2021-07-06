@@ -1,26 +1,62 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Board } from '../../entity/Board';
+import { Task } from '../../entity/Task';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 
 @Injectable()
 export class BoardsService {
-  create(createBoardDto: CreateBoardDto) {
-    return 'This action adds a new board';
+  constructor(
+    @InjectRepository(Board)
+    private boardsRepository: Repository<Board>,
+    @InjectRepository(Task)
+    private tasksRepository: Repository<Task>,
+  ) {}
+
+  async create({ title, columns }: CreateBoardDto) {
+    const board = new Board();
+    board.title = title;
+    board.columns = columns;
+    await this.boardsRepository.save(board);
+    return board;
   }
 
-  findAll() {
-    return `This action returns all boards`;
+  async findAll() {
+    const allBoards = await this.boardsRepository.find();
+    return allBoards;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} board`;
+  async findOne(id: string) {
+    const board = await this.boardsRepository.findOne(id);
+    return board;
   }
 
-  update(id: number, updateBoardDto: UpdateBoardDto) {
-    return `This action updates a #${id} board`;
+  async update(id: string, updateBoardDto: UpdateBoardDto) {
+    const boardToUpdate = await this.boardsRepository.findOne(id);
+    if (boardToUpdate) {
+      const updatedBoard = { ...boardToUpdate, ...updateBoardDto };
+      await this.boardsRepository.save(updatedBoard);
+      return updatedBoard;
+    }
+    return undefined;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} board`;
+  async remove(id: string) {
+    await this.deleteTasksByBoardId(id);
+    const boardToRemove = await this.boardsRepository.findOne(id);
+    if (boardToRemove) await this.boardsRepository.remove(boardToRemove);
+  }
+
+  async deleteTasksByBoardId(boardId: string): Promise<void> {
+    const tasksToRemove = await this.tasksRepository.find({
+      where: { boardId },
+    });
+    if (tasksToRemove) {
+      tasksToRemove.forEach(async (task) => {
+        await this.tasksRepository.remove(task);
+      });
+    }
   }
 }

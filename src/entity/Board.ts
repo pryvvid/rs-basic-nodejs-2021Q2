@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 class Board {
   @PrimaryGeneratedColumn('uuid')
-  id?: string;
+  id: string;
 
   @Column()
   title: string;

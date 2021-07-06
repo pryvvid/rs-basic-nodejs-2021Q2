@@ -1,27 +1,69 @@
 import { Injectable } from '@nestjs/common';
-import usersRepository from './user.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from '../../entity/User';
+import { Task } from '../../entity/Task';
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+    @InjectRepository(Task)
+    private tasksRepository: Repository<Task>,
+  ) {}
+
+  async create({ name, login, password }: CreateUserDto) {
+    const user = new User();
+    user.name = name;
+    user.login = login;
+    user.password = password;
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // user.password = hashedPassword;
+    await this.usersRepository.save(user);
+    return User.toResponse(user);
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    const allUsers = await this.usersRepository.find();
+    return allUsers.map(User.toResponse);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    const user = await this.usersRepository.findOne(id);
+    return User.toResponse(user);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const userToUpdate = await this.usersRepository.findOne(id);
+    if (userToUpdate) {
+      const updatedUser = { ...userToUpdate, ...updateUserDto };
+      await this.usersRepository.save(updatedUser);
+      return updatedUser;
+    }
+    return undefined;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    await this.setUserIdToNull(id);
+    const userToRemove = await this.usersRepository.findOne(id);
+    if (userToRemove) {
+      await this.usersRepository.remove(userToRemove);
+    }
+  }
+
+  async setUserIdToNull(userId: string): Promise<void> {
+    const tasks = await this.tasksRepository.find({
+      where: { userId },
+    });
+    if (tasks) {
+      const updatedTasks = tasks.map((task) => ({ ...task, userId: null }));
+      updatedTasks.forEach(async (taskToSave) => {
+        await this.tasksRepository.save(taskToSave);
+      });
+    }
   }
 }
