@@ -34,6 +34,7 @@ export class UsersService {
 
   async findOne(id: string) {
     const user = await this.usersRepository.findOne(id);
+    if (!user) return undefined;
     return User.toResponse(user);
   }
 

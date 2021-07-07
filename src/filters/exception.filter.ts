@@ -18,8 +18,28 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
+    let message;
+    switch (status) {
+      case 400:
+        message = 'BAD REQUEST';
+        break;
+      case 401:
+        message = 'UNAUTHORIZED';
+        break;
+      case 403:
+        message = 'FORBIDDEN';
+        break;
+      case 404:
+        message = 'NOT FOUND';
+        break;
+      default:
+        message = 'INTERNAL SERVER ERROR';
+        break;
+    }
+
     response.status(status).json({
       statusCode: status,
+      message: message,
       timestamp: new Date().toISOString(),
       path: request.url,
     });
