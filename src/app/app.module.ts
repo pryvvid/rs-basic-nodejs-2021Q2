@@ -6,9 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from '../resources/users/users.module';
 import { BoardsModule } from '../resources/boards/boards.module';
 import { TasksModule } from '../resources/tasks/tasks.module';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AllExceptionsFilter } from '../filters/exception.filter';
 import { LoginModule } from 'src/resources/login/login.module';
+import { AuthGuard } from '../guards/auth.guard';
 
 // TODO: change typeORM config with env const
 @Module({
@@ -30,6 +31,10 @@ import { LoginModule } from 'src/resources/login/login.module';
   ],
   controllers: [],
   providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
