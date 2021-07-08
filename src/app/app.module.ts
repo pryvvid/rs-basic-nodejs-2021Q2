@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { User } from '../entity/User';
 import { Board } from '../entity/Board';
 import { Task } from '../entity/Task';
@@ -6,10 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from '../resources/users/users.module';
 import { BoardsModule } from '../resources/boards/boards.module';
 import { TasksModule } from '../resources/tasks/tasks.module';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AllExceptionsFilter } from '../filters/exception.filter';
-import { LoginModule } from 'src/resources/login/login.module';
+import { LoginModule } from '../resources/login/login.module';
 import { AuthGuard } from '../guards/auth.guard';
+import { LoggerMiddleware } from '../middlewares/logger.middleware';
 
 // TODO: change typeORM config with env const
 // TODO: add migrations
@@ -42,4 +43,8 @@ import { AuthGuard } from '../guards/auth.guard';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
