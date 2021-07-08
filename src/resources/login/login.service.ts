@@ -2,21 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
+// import * as jwt from 'jsonwebtoken';
 import { User } from '../../entity/User';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { JwtToken } from '../../common/types';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class LoginService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   // TODO: change jwt secret key with env const
 
-  async authorizeUser({
+  async authenticateUser({
     login,
     password,
   }: CreateLoginDto): Promise<JwtToken | undefined> {
@@ -26,9 +28,10 @@ export class LoginService {
       const userId = user.id;
       const isPasswordMatching = await bcrypt.compare(password, hashedPassword);
       if (isPasswordMatching) {
-        const token = jwt.sign({ userId, login }, 'my-secret-key', {
-          expiresIn: 60 * 60,
-        });
+        const token = this.jwtService.sign({ userId, login });
+        // const token = jwt.sign({ userId, login }, 'my-secret-key', {
+        //   expiresIn: 60 * 60,
+        // });
         return { token };
       }
     }

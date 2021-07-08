@@ -12,6 +12,7 @@ import { LoginModule } from 'src/resources/login/login.module';
 import { AuthGuard } from '../guards/auth.guard';
 
 // TODO: change typeORM config with env const
+// TODO: add migrations
 @Module({
   imports: [
     TypeOrmModule.forRoot({

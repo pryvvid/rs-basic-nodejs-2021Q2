@@ -32,8 +32,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
       case 404:
         message = 'NOT FOUND';
         break;
-      default:
+      case 500:
         message = 'INTERNAL SERVER ERROR';
+        break;
+      default:
+        message = 'Something went wrong';
         break;
     }
 

@@ -7,8 +7,8 @@ export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
   @Post()
-  async authorizeUser(@Body() createLoginDto: CreateLoginDto) {
-    const token = await this.loginService.authorizeUser(createLoginDto);
+  async authenticateUser(@Body() createLoginDto: CreateLoginDto) {
+    const token = await this.loginService.authenticateUser(createLoginDto);
     if (!token) throw new ForbiddenException();
     return token;
   }
