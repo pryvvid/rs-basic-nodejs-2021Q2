@@ -8,13 +8,14 @@ import { validateToken } from '../helpers/validateToken';
 @Injectable()
 export class validateRequestFastify implements NestMiddleware {
   use(req: Request, _res: Response, next: NextFunction) {
-    if (req.path === '/') {
+    console.log(req.url);
+    if (req.url === '/') {
       return next();
     }
-    if (req.path === '/doc') {
+    if (req.url === '/doc') {
       return next();
     }
-    if (req.path === '/login') {
+    if (req.url === '/login') {
       console.log('Im here!');
       return next();
     }
