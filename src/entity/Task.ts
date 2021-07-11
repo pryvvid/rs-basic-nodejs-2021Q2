@@ -1,9 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 class Task {
-
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id?: string;
 
   @Column()
@@ -25,4 +24,4 @@ class Task {
   columnId: string;
 }
 
-export { Task }
+export { Task };
