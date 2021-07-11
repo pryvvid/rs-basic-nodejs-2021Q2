@@ -5,15 +5,24 @@ import * as jwt from 'jsonwebtoken';
 import { validateToken } from './validateToken';
 
 const validateRequest = async (req: Request) => {
-  if (req.path === '/') {
+  if (req.url === '/') {
     return true;
   }
-  if (req.path === '/doc') {
+  if (req.url === '/doc') {
     return true;
   }
-  if (req.path === '/login') {
+  if (req.url === '/login') {
     return true;
   }
+  // if (req.path === '/') {
+  //   return true;
+  // }
+  // if (req.path === '/doc') {
+  //   return true;
+  // }
+  // if (req.path === '/login') {
+  //   return true;
+  // }
   const sessionToken = req.headers.authorization;
   if (!sessionToken) throw new UnauthorizedException();
 

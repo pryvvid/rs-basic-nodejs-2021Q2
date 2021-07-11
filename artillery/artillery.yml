@@ -1,0 +1,66 @@
+config:
+  target: "http://localhost:4000"
+  phases:
+    - duration: 10
+      arrivalRate: 5
+      name: Warm up
+    - duration: 20
+      arrivalRate: 5
+      rampTo: 50
+      name: Ramp up load
+    - duration: 30
+      arrivalRate: 10
+      name: Sustained load
+
+scenarios:
+  - name: "Users"
+    flow:
+      - post:
+          url: "/login"
+          json:
+            login: "admin"
+            password: "admin"
+          capture:
+            - json: "$.token"
+              as: "token"
+      - think: 1
+      - get:
+          url: "/users"
+          headers:
+            authorization: "Bearer {{ token }}"
+      - think: 1
+      - post:
+          url: "/users"
+          headers:
+            authorization: "Bearer {{ token }}"
+          json:
+            login: "test-{{ $randomString(8) }}"
+            name: "test"
+            password: "123456"
+          capture:
+            - json: "$.id"
+              as: "userId"
+      - think: 1
+      - get:
+          url: "/users/{{ userId }}"
+          headers:
+            authorization: "Bearer {{ token }}"
+          capture:
+            - json: "$.id"
+              as: "getUserId"
+      - think: 1
+      - put:
+          url: "/users/{{ userId }}"
+          headers:
+            authorization: "Bearer {{ token }}"
+          json:
+            login: "test-update-{{ getUserId }}"
+            name: "test-update-{{ $randomString(8) }}"
+            password: "123456"
+          capture:
+            - json: "$.id"
+              as: "updateUserId"
+      - delete:
+          url: "/users/{{ userId }}"
+          headers:
+            authorization: "Bearer {{ token }}"

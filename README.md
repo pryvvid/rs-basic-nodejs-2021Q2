@@ -26,6 +26,14 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Artillery tests
+
+### Express
+[Report](/artillery/report-express.html)
+
+### Fastify
+[Report](/artillery/report-fastify.html)
+
 ## Installation
 
 ```bash
@@ -48,15 +56,8 @@ $ npm run start:prod
 ## Test
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
+# auth tests
+$ npm run test:auth
 
 ## Support
 
