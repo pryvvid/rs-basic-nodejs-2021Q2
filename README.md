@@ -36,6 +36,12 @@
 ![Fastify](https://i.imgur.com/tzuAAZx.png)
 [Report](/artillery/report-fastify.html)
 
+## Running the app in docker
+
+```bash
+$ docker compose up
+```
+
 ## Installation
 
 ```bash
