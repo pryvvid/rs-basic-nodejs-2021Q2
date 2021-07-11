@@ -3,8 +3,8 @@ version: '3.8'
 services:
   node:
     build: .
-    container_name: node_rest_api
-    image: 'pryvvid/node_rest_api:node'
+    container_name: nestjs_rest_api
+    image: 'pryvvid/nestjs_rest_api:node'
     ports: 
       - ${PORT}:${PORT}
     depends_on: 
