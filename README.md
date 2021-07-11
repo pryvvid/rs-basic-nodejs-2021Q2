@@ -29,9 +29,11 @@
 ## Artillery tests
 
 ### Express
+![Express](https://i.imgur.com/xXW5C6L.png)
 [Report](/artillery/report-express.html)
 
 ### Fastify
+![Fastify](https://i.imgur.com/tzuAAZx.png)
 [Report](/artillery/report-fastify.html)
 
 ## Installation
