@@ -40,7 +40,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         break;
     }
 
-    response.status(status).json({
+    response.status(status).send({
       statusCode: status,
       message: message,
       timestamp: new Date().toISOString(),

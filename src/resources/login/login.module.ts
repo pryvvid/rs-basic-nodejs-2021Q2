@@ -4,12 +4,13 @@ import { LoginController } from './login.controller';
 import { User } from '../../entity/User';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
+import { JWT_SECRET_KEY } from '../../common/config';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
-      secret: 'my-secret-key',
+      secret: JWT_SECRET_KEY,
       signOptions: { expiresIn: '1h' },
     }),
   ],

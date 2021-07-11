@@ -1,7 +1,7 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import * as jwt from 'jsonwebtoken';
-// import { JWT_SECRET_KEY } from '../common/config';
+import { JWT_SECRET_KEY } from '../common/config';
 import { validateToken } from './validateToken';
 
 const validateRequest = async (req: Request) => {
@@ -14,15 +14,6 @@ const validateRequest = async (req: Request) => {
   if (req.url === '/login') {
     return true;
   }
-  // if (req.path === '/') {
-  //   return true;
-  // }
-  // if (req.path === '/doc') {
-  //   return true;
-  // }
-  // if (req.path === '/login') {
-  //   return true;
-  // }
   const sessionToken = req.headers.authorization;
   if (!sessionToken) throw new UnauthorizedException();
 
@@ -31,12 +22,10 @@ const validateRequest = async (req: Request) => {
 
   const token = sessionToken.split(' ')[1];
   try {
-    // TODO: use env for secret key
-    const verification = await jwt.verify(token, 'my-secret-key');
+    const verification = await jwt.verify(token, JWT_SECRET_KEY);
     if (verification) return true;
   } catch (e) {
-    // TODO: use logger
-    console.log(e);
+    process.stdout.write(`${e}\n`);
   }
   throw new UnauthorizedException();
 };
